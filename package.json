@@ -4,12 +4,18 @@
   "main": "toaster.js",
   "description": "AngularJS Toaster is a customized version of toastr non-blocking notification javascript library",
   "author": "Jiri Kavulak",
+  "contributors": [
+    "Dieter Geerts <dieter@dworks.be> https://www.linkedin.com/in/dieteratwork/"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/jirikavi/AngularJS-Toaster.git"
   },
-  "dependencies": {},
+  "peerDependencies": {
+    "angular1-async-filter": ">=1",
+    "rxjs": ">=5"
+  },
   "devDependencies": {
     "angular": ">1.2.6",
     "angular-animate": "~1.2.8",

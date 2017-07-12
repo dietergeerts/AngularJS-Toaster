@@ -15,6 +15,8 @@
      * Related to project of John Papa, Hans Fjällemark and Nguyễn Thiện Hùng (thienhung1989)
      */
 
+    const Rx = require('rxjs');
+
     angular.module('toaster', []).constant(
         'toasterConfig', {
             'limit': 0,                   // limits max number of toasts
@@ -45,7 +47,7 @@
     ).run(['$templateCache', function($templateCache) {
             $templateCache.put('angularjs-toaster/toast.html',
                 '<div id="toast-container" ng-class="[config.position, config.animation]">' +
-                    '<div ng-repeat="toaster in toasters" class="toast" ng-class="toaster.type" ng-click="click($event, toaster)" ng-mouseover="stopTimer(toaster)" ng-mouseout="restartTimer(toaster)">' +
+                    '<div ng-repeat="toaster in toastersRx | async : this" class="toast" ng-class="toaster.type" ng-click="click($event, toaster)" ng-mouseover="stopTimer(toaster)" ng-mouseout="restartTimer(toaster)">' +
                         '<div ng-if="toaster.showCloseButton" ng-click="click($event, toaster, true)" ng-bind-html="toaster.closeHtml"></div>' +
                         '<div ng-class="config.title">{{toaster.title}}</div>' +
                         '<div ng-class="config.message" ng-switch on="toaster.bodyOutputType">' +
@@ -395,6 +397,8 @@
                                 }
                             }
 
+                            updateToastersRx();
+
                             if (angular.isFunction(toast.onShowCallback)) {
                                 toast.onShowCallback();
                             }
@@ -418,6 +422,7 @@
                                 $interval.cancel(toast.timeoutPromise);
                             }
                             scope.toasters.splice(toastIndex, 1);
+                            updateToastersRx();
 
                             if (angular.isFunction(toast.onHideCallback)) {
                                 toast.onHideCallback();
@@ -437,9 +442,14 @@
                         }
 
                         scope.toasters = [];
+                        scope.toastersRx = new Rx.BehaviorSubject([]);
 
                         function isUndefinedOrNull(val) {
                             return angular.isUndefined(val) || val === null;
+                        }
+
+                        function updateToastersRx() {
+                            scope.toastersRx.next(scope.toasters.slice(0));
                         }
 
                         scope._onNewToast = function(event, toasterId, toastId) {

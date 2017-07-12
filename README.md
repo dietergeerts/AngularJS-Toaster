@@ -9,6 +9,7 @@ AngularJS-Toaster
 ### Current Version 2.1.0
 
 ## Angular Compatibility
+
 AngularJS-Toaster requires AngularJS v1.2.6 or higher and specifically targets AngularJS, not Angular 2, although it could be used via ngUpgrade.  
 If you are looking for the Angular 2 port of AngularJS-Toaster, it is located [here](https://github.com/Stabzs/Angular2-Toaster).
 
@@ -25,18 +26,22 @@ Optionally: to install with bower, use:
 ```
 bower install --save angularjs-toaster
 ```
+
 or with npm :
 ```
 npm install --save angularjs-toaster
 ```
-* Link scripts:
 
-```html
-<link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.css" rel="stylesheet" />
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js" ></script>
-<script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/1.1.0/toaster.min.js"></script>
-```
+### PeerDependencies:
+
+- [rxjs](https://github.com/ReactiveX/rxjs)  
+- `angular`
+- `angular-animate`
+- [angular1-async-filter](https://github.com/cvuorinen/angular1-async-filter)
+
+### Usage
+
+* Include/require both the `js` and `css` files
 
 * Add toaster container directive: 
 
@@ -387,14 +392,6 @@ If you do not want to use animations, you can safely remove the angular-animate.
     - You have multiple `<toaster-container></toaster-container` elements without unique `toaster-id` configuration arguments.
 - [$sce:itype] Attempted to trust a non-string value in a content requiring a string 
     - You have not specified: `bodyOutputType: 'trustedHtml'` when passing html as a body argument.
-- My toasts do not show up when I pop them, but after I perform another action.
-    - You are calling `toaster.pop()` outside of AngularJS scope and a digest cycle is not being triggered.
-    Wrap your `toaster.pop()` call in `$timeout` to force a digest cycle.
-    ```js
-     $timeout(function () {
-        toaster.pop();
-     }, 0);
-    ```
 		
 ## Author
 **Jiri Kavulak**
